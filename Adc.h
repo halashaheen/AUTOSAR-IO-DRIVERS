@@ -140,7 +140,7 @@ typedef enum{
 #define read_ptr 0x0F
 #define Write_ptr 0xF0
 #define EMPTY 0x100
-#define FULL  0x800
+#define FULL  0x1000
 
 // ADC Processor Sample Sequence Initiate (ADC_O_PSSI)
 #define SYNCWAIT_BIT 27
@@ -176,6 +176,7 @@ void ADCSampleSequencerDisable(uint32_t ADC_module_base, uint8_t ADC_sequencerNu
 
 uint32_t ADCSequenceDataGet(uint32_t ADC_module_base, uint8_t ADC_sequencerNumber,
                            uint32_t *BufferPtr);
+
 
 void ADC_InitiateConversionBySW(uint32_t ADC_module_base, uint8_t ADC_sequencerNumber,
                                 ADC_SW_ConversionMode conversionMode,IsLastConcurrentModule flag);

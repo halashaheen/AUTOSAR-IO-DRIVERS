@@ -148,6 +148,37 @@ void ADCSampleSequencerDisable(uint32_t ADC_module_base, uint8_t ADC_sequencerNu
  */
 
 //absolutely different approach ...
+
+uint32_t ADCSequenceDataGet(uint32_t ADC_module_base, uint8_t ADC_sequencerNumber,uint32_t *BufferPtr){
+
+
+    uint32_t ADCSSFIFOn_offset,ADCSSFSTATn_offset;
+    if(ADC_sequencerNumber==ADC_SS0){
+        ADCSSFIFOn_offset=ADC_O_SSFIFO0;
+        ADCSSFSTATn_offset=ADC_O_SSFSTAT0;}
+
+    else if(ADC_sequencerNumber==ADC_SS1){
+        ADCSSFIFOn_offset=ADC_O_SSFIFO1;
+        ADCSSFSTATn_offset=ADC_O_SSFSTAT1;}
+
+    else if(ADC_sequencerNumber==ADC_SS2){
+        ADCSSFIFOn_offset=ADC_O_SSFIFO2;
+        ADCSSFSTATn_offset=ADC_O_SSFSTAT2;}
+
+    else if(ADC_sequencerNumber==ADC_SS3){
+        ADCSSFIFOn_offset=ADC_O_SSFIFO3;
+        ADCSSFSTATn_offset=ADC_O_SSFSTAT3;}
+
+     uint8_t n_samples=0;
+
+     while(!(ADC_REG(ADC_module_base,ADCSSFSTATn_offset)&EMPTY)){
+         *BufferPtr++=ADC_REG(ADC_module_base,ADCSSFIFOn_offset);
+         n_samples++;
+     }
+     return n_samples;
+}
+
+/*
 uint32_t ADCSequenceDataGet(uint32_t ADC_module_base, uint8_t ADC_sequencerNumber,uint32_t *BufferPtr){
 
     uint8_t SS_MAXlimit=0;
@@ -187,6 +218,7 @@ uint32_t ADCSequenceDataGet(uint32_t ADC_module_base, uint8_t ADC_sequencerNumbe
      }
      return n_samples;
 }
+*/
 //support both individual ADC sequencer and conncurrent sampling
 /*
  * individual sampling
